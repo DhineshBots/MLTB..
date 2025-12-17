@@ -325,13 +325,10 @@ async def get_user_settings(from_user, stype="main"):
             )
         buttons.data_button("Close", f"userset {user_id} close", position="footer")
 
-        text = f"""࿗ <b>USER SETTINGS :</b>
+        text = f"""࿗ <b>USER SETTINGS : {user_name}</b>
 
-<b>┌ Name</b> ➪ {user_name}
-<b>├ UserID</b> ➪ #ID{user_id}
-<b>├ Username</b> ➪ @{from_user.username}
-<b>├ Telegram DC</b> ➪ {from_user.dc_id}
-<b>└ Telegram Lang</b> ➪ {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}"""
+<b>┌ Telegram DC ➪ {from_user.dc_id}</b>
+<b>└ Telegram Language ➪ {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}</b>"""
 
         btns = buttons.build_menu(2)
 
@@ -340,17 +337,17 @@ async def get_user_settings(from_user, stype="main"):
             default_upload = user_dict["DEFAULT_UPLOAD"]
         elif "DEFAULT_UPLOAD" not in user_dict:
             default_upload = Config.DEFAULT_UPLOAD
-        du = "GDRIVE API" if default_upload == "gd" else "RCLONE"
-        dur = "GDRIVE API" if default_upload != "gd" else "RCLONE"
+        du = "Gdrive" if default_upload == "gd" else "Rclone"
+        dur = "Gdrive" if default_upload != "gd" else "Rclone"
         buttons.data_button(
-            f"Swap to {dur} Mode", f"userset {user_id} {default_upload}"
+            f"Using {dur} Mode", f"userset {user_id} {default_upload}"
         )
 
         user_tokens = user_dict.get("USER_TOKENS", False)
         tr = "USER" if user_tokens else "OWNER"
         trr = "OWNER" if user_tokens else "USER"
         buttons.data_button(
-            f"Swap to {trr} token/config",
+            f"Using {trr} token/config",
             f"userset {user_id} tog USER_TOKENS {'f' if user_tokens else 't'}",
         )
 
@@ -360,16 +357,16 @@ async def get_user_settings(from_user, stype="main"):
         def_cookies = user_dict.get("USE_DEFAULT_COOKIE", False)
         cookie_mode = "Owner's Cookie" if def_cookies else "User's Cookie"
         buttons.data_button(
-            f"Swap to {'OWNER' if not def_cookies else 'USER'}'s Cookie File",
+            f"Using {'Owner' if not def_cookies else 'User'}'s Cookie File",
             f"userset {user_id} tog USE_DEFAULT_COOKIE {'f' if def_cookies else 't'}",
         )
         btns = buttons.build_menu(1)
 
-        text = f"""࿗ <b>GENERAL SETTINGS :{user_name}</b>
+        text = f"""࿗ <b>GENERAL SETTINGS : {user_name}</b>
         
-<b>┌ Default Upload Package</b> ➪ <b>{du}</b>
-<b>├ Default Usage Mode</b> ➪ <b>{tr}'s</b> token/config
-<b>└ Yt Cookies Mode</b> ➪ <b>{cookie_mode}</b>
+<b>┌ Default Upload Package ➪ {du}</b>
+<b>├ Default Usage Mode ➪ {tr}'s</b> token/config
+<b>└ Yt Cookies Mode ➪ {cookie_mode}</b>
 """
 
     elif stype == "leech":
@@ -396,7 +393,7 @@ async def get_user_settings(from_user, stype="main"):
         else:
             split_size = Config.LEECH_SPLIT_SIZE
         buttons.data_button(
-            "Leech Destination", f"userset {user_id} menu LEECH_DUMP_CHAT"
+            "Leech Log", f"userset {user_id} menu LEECH_DUMP_CHAT"
         )
         if user_dict.get("LEECH_DUMP_CHAT", False):
             leech_dest = user_dict["LEECH_DUMP_CHAT"]
@@ -432,12 +429,12 @@ async def get_user_settings(from_user, stype="main"):
             and Config.EQUAL_SPLITS
         ):
             buttons.data_button(
-                "Disable Equal Splits", f"userset {user_id} tog EQUAL_SPLITS f"
+                "Equal Splits ✅", f"userset {user_id} tog EQUAL_SPLITS f"
             )
             equal_splits = "Enabled"
         else:
             buttons.data_button(
-                "Enable Equal Splits", f"userset {user_id} tog EQUAL_SPLITS t"
+                "Equal Splits", f"userset {user_id} tog EQUAL_SPLITS t"
             )
             equal_splits = "Disabled"
         if (
@@ -446,12 +443,12 @@ async def get_user_settings(from_user, stype="main"):
             and Config.MEDIA_GROUP
         ):
             buttons.data_button(
-                "Disable Media Group", f"userset {user_id} tog MEDIA_GROUP f"
+                "Media Group ✅", f"userset {user_id} tog MEDIA_GROUP f"
             )
             media_group = "Enabled"
         else:
             buttons.data_button(
-                "Enable Media Group", f"userset {user_id} tog MEDIA_GROUP t"
+                "Media Group", f"userset {user_id} tog MEDIA_GROUP t"
             )
             media_group = "Disabled"
         if (
@@ -480,12 +477,12 @@ async def get_user_settings(from_user, stype="main"):
         ):
             hybrid_leech = "Enabled"
             buttons.data_button(
-                "Disable Hybride Leech", f"userset {user_id} tog HYBRID_LEECH f"
+                "Hybride Leech ✅", f"userset {user_id} tog HYBRID_LEECH f"
             )
         elif TgClient.IS_PREMIUM_USER:
             hybrid_leech = "Disabled"
             buttons.data_button(
-                "Enable HYBRID Leech", f"userset {user_id} tog HYBRID_LEECH t"
+                "HYBRID Leech", f"userset {user_id} tog HYBRID_LEECH t"
             )
         else:
             hybrid_leech = "Disabled"
@@ -511,10 +508,10 @@ async def get_user_settings(from_user, stype="main"):
 <b>├ Leech Split Size ➪ {get_readable_file_size(split_size)}</b>
 <b>├ Equal Splits ➪ {equal_splits}</b>
 <b>├ Media Group ➪ {media_group}</b>
-<b>├ Leech Prefix</b> ➪ <code>{escape(lprefix)}</code>
-<b>├ Leech Suffix</b> ➪ <code>{escape(lsuffix)}</code>
-<b>├ Leech Caption</b> ➪ <code>{escape(lcap)}</code>
-<b>├ Leech Destination</b> ➪ <code>{leech_dest}</code>
+<b>├ Leech Prefix ➪ <code>{escape(lprefix)}</code></b>
+<b>├ Leech Suffix ➪ <code>{escape(lsuffix)}</code></b>
+<b>├ Leech Caption ➪ <code>{escape(lcap)}</code></b>
+<b>├ Leech Destination ➪ <code>{leech_dest}</code></b>
 <b>├ Leech by {leech_method}</b> session
 <b>├ Mixed Leech ➪ {hybrid_leech}</b>
 <b>└ Thumbnail Layout ➪ {thumb_layout}</b>
