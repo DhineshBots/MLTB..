@@ -327,11 +327,11 @@ async def get_user_settings(from_user, stype="main"):
 
         text = f"""࿗ <b>USER SETTINGS :</b>
 
-<b>╔ Name</b> ➪ {user_name}
-<b>╟ UserID</b> ➪ #ID{user_id}
-<b>╟ Username</b> ➪ @{from_user.username}
-<b>╟ Telegram DC</b> ➪ {from_user.dc_id}
-<b>╚ Telegram Lang</b> ➪ {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}"""
+<b>┌ Name</b> ➪ {user_name}
+<b>├ UserID</b> ➪ #ID{user_id}
+<b>├ Username</b> ➪ @{from_user.username}
+<b>├ Telegram DC</b> ➪ {from_user.dc_id}
+<b>└ Telegram Lang</b> ➪ {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}"""
 
         btns = buttons.build_menu(2)
 
@@ -365,11 +365,11 @@ async def get_user_settings(from_user, stype="main"):
         )
         btns = buttons.build_menu(1)
 
-        text = f"""࿗ <b>GENERAL SETTINGS :</b>
-<b>╔ Name</b> ➪ {user_name}
-<b>╟ Default Upload Package</b> ➪ <b>{du}</b>
-<b>╟ Default Usage Mode</b> ➪ <b>{tr}'s</b> token/config
-<b>╚ Yt Cookies Mode</b> ➪ <b>{cookie_mode}</b>
+        text = f"""࿗ <b>GENERAL SETTINGS :{user_name}</b>
+        
+<b>┌ Default Upload Package</b> ➪ <b>{du}</b>
+<b>├ Default Usage Mode</b> ➪ <b>{tr}'s</b> token/config
+<b>└ Yt Cookies Mode</b> ➪ <b>{cookie_mode}</b>
 """
 
     elif stype == "leech":
@@ -504,20 +504,20 @@ async def get_user_settings(from_user, stype="main"):
         buttons.data_button("Close", f"userset {user_id} close", "footer")
         btns = buttons.build_menu(2)
 
-        text = f"""࿗ <b>LEECH SETTINGS :</b>
-<b>╔ Name ➪ {user_name}</b>
-<b>╟ Leech Type ➪ {ltype}</b>
-<b>╟ Custom Thumbnail ➪ {thumbmsg}</b>
-<b>╟ Leech Split Size ➪ {get_readable_file_size(split_size)}</b>
-<b>╟ Equal Splits ➪ {equal_splits}</b>
-<b>╟ Media Group ➪ {media_group}</b>
-<b>╟ Leech Prefix</b> ➪ <code>{escape(lprefix)}</code>
-<b>╟ Leech Suffix</b> ➪ <code>{escape(lsuffix)}</code>
-<b>╟ Leech Caption</b> ➪ <code>{escape(lcap)}</code>
-<b>╟ Leech Destination</b> ➪ <code>{leech_dest}</code>
-<b>╟ Leech by {leech_method}</b> session
-<b>╟ Mixed Leech ➪ {hybrid_leech}</b>
-<b>╚ Thumbnail Layout ➪ {thumb_layout}</b>
+        text = f"""࿗ <b>LEECH SETTINGS :{user_name}</b>
+        
+<b>┌ Leech Type ➪ {ltype}</b>
+<b>├ Custom Thumbnail ➪ {thumbmsg}</b>
+<b>├ Leech Split Size ➪ {get_readable_file_size(split_size)}</b>
+<b>├ Equal Splits ➪ {equal_splits}</b>
+<b>├ Media Group ➪ {media_group}</b>
+<b>├ Leech Prefix</b> ➪ <code>{escape(lprefix)}</code>
+<b>├ Leech Suffix</b> ➪ <code>{escape(lsuffix)}</code>
+<b>├ Leech Caption</b> ➪ <code>{escape(lcap)}</code>
+<b>├ Leech Destination</b> ➪ <code>{leech_dest}</code>
+<b>├ Leech by {leech_method}</b> session
+<b>├ Mixed Leech ➪ {hybrid_leech}</b>
+<b>└ Thumbnail Layout ➪ {thumb_layout}</b>
 """
 
     elif stype == "uphoster":
