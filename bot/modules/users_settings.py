@@ -299,16 +299,12 @@ async def get_user_settings(from_user, stype="main"):
     user_dict = user_data.get(user_id, {})
 
     if stype == "main":
-        buttons.data_button(
-            "General Settings", f"userset {user_id} general", position="header"
-        )
-        buttons.data_button("Mirror Settings", f"userset {user_id} mirror")
-        buttons.data_button("Leech Settings", f"userset {user_id} leech")
-        buttons.data_button("Uphoster Settings", f"userset {user_id} uphoster")
-        buttons.data_button("FF Media Settings", f"userset {user_id} ffset")
-        buttons.data_button(
-            "Mics Settings", f"userset {user_id} advanced", position="l_body"
-        )
+        buttons.data_button("General Tools", f"userset {user_id} general")
+        buttons.data_button("Mirror Tools", f"userset {user_id} mirror")
+        buttons.data_button("Leech Tools", f"userset {user_id} leech")
+        buttons.data_button("Uphoster Tools", f"userset {user_id} uphoster")
+        buttons.data_button("FF Media Tools", f"userset {user_id} ffset")
+        buttons.data_button("Extra Tools", f"userset {user_id} advanced")
 
         if user_dict and any(
             key in user_dict
@@ -329,13 +325,13 @@ async def get_user_settings(from_user, stype="main"):
             )
         buttons.data_button("Close", f"userset {user_id} close", position="footer")
 
-        text = f"""⌬ <b>User Settings :</b>
-│
-┟ <b>Name</b> → {user_name}
-┠ <b>UserID</b> → #ID{user_id}
-┠ <b>Username</b> → @{from_user.username}
-┠ <b>Telegram DC</b> → {from_user.dc_id}
-┖ <b>Telegram Lang</b> → {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}"""
+        text = f"""࿗ <b>USER SETTINGS :</b>
+
+<b>╔ Name</b> ➪ {user_name}
+<b>╟ UserID</b> ➪ #ID{user_id}
+<b>╟ Username</b> ➪ @{from_user.username}
+<b>╟ Telegram DC</b> ➪ {from_user.dc_id}
+<b>╚ Telegram Lang</b> ➪ {Language.get(lc).display_name() if (lc := from_user.language_code) else "N/A"}"""
 
         btns = buttons.build_menu(2)
 
@@ -369,15 +365,26 @@ async def get_user_settings(from_user, stype="main"):
         )
         btns = buttons.build_menu(1)
 
-        text = f"""⌬ <b>General Settings :</b>
-┟ <b>Name</b> → {user_name}
-┃
-┠ <b>Default Upload Package</b> → <b>{du}</b>
-┠ <b>Default Usage Mode</b> → <b>{tr}'s</b> token/config
-┖ <b>yt Cookies Mode</b> → <b>{cookie_mode}</b>
+        text = f"""࿗ <b>GENERAL SETTINGS :</b>
+<b>╔ Name</b> ➪ {user_name}
+<b>╟ Default Upload Package</b> ➪ <b>{du}</b>
+<b>╟ Default Usage Mode</b> ➪ <b>{tr}'s</b> token/config
+<b>╚ Yt Cookies Mode</b> ➪ <b>{cookie_mode}</b>
 """
 
     elif stype == "leech":
+        if (
+            user_dict.get("AS_DOCUMENT", False)
+            or "AS_DOCUMENT" not in user_dict
+            and Config.AS_DOCUMENT
+        ):
+            ltype = "DOCUMENT"
+            buttons.data_button("As Media", f"userset {user_id} tog AS_DOCUMENT f")
+        else:
+            ltype = "MEDIA"
+            buttons.data_button(
+                "As Document", f"userset {user_id} tog AS_DOCUMENT t"
+            )
         thumbpath = f"thumbnails/{user_id}.jpg"
         buttons.data_button("Thumbnail", f"userset {user_id} menu THUMBNAIL")
         thumbmsg = "Exists" if await aiopath.exists(thumbpath) else "Not Exists"
@@ -419,19 +426,6 @@ async def get_user_settings(from_user, stype="main"):
             lcap = Config.LEECH_CAPTION
         else:
             lcap = "Not Exists"
-
-        if (
-            user_dict.get("AS_DOCUMENT", False)
-            or "AS_DOCUMENT" not in user_dict
-            and Config.AS_DOCUMENT
-        ):
-            ltype = "DOCUMENT"
-            buttons.data_button("Send As Media", f"userset {user_id} tog AS_DOCUMENT f")
-        else:
-            ltype = "MEDIA"
-            buttons.data_button(
-                "Send As Document", f"userset {user_id} tog AS_DOCUMENT t"
-            )
         if (
             user_dict.get("EQUAL_SPLITS", False)
             or "EQUAL_SPLITS" not in user_dict
@@ -510,21 +504,20 @@ async def get_user_settings(from_user, stype="main"):
         buttons.data_button("Close", f"userset {user_id} close", "footer")
         btns = buttons.build_menu(2)
 
-        text = f"""⌬ <b>Leech Settings :</b>
-┟ <b>Name</b> → {user_name}
-┃
-┠ Leech Type → <b>{ltype}</b>
-┠ Custom Thumbnail → <b>{thumbmsg}</b>
-┠ Leech Split Size → <b>{get_readable_file_size(split_size)}</b>
-┠ Equal Splits → <b>{equal_splits}</b>
-┠ Media Group → <b>{media_group}</b>
-┠ Leech Prefix → <code>{escape(lprefix)}</code>
-┠ Leech Suffix → <code>{escape(lsuffix)}</code>
-┠ Leech Caption → <code>{escape(lcap)}</code>
-┠ Leech Destination → <code>{leech_dest}</code>
-┠ Leech by <b>{leech_method}</b> session
-┠ Mixed Leech → <b>{hybrid_leech}</b>
-┖ Thumbnail Layout → <b>{thumb_layout}</b>
+        text = f"""࿗ <b>LEECH SETTINGS :</b>
+<b>╔ Name ➪ {user_name}</b>
+<b>╟ Leech Type ➪ {ltype}</b>
+<b>╟ Custom Thumbnail ➪ {thumbmsg}</b>
+<b>╟ Leech Split Size ➪ {get_readable_file_size(split_size)}</b>
+<b>╟ Equal Splits ➪ {equal_splits}</b>
+<b>╟ Media Group ➪ {media_group}</b>
+<b>╟ Leech Prefix</b> ➪ <code>{escape(lprefix)}</code>
+<b>╟ Leech Suffix</b> ➪ <code>{escape(lsuffix)}</code>
+<b>╟ Leech Caption</b> ➪ <code>{escape(lcap)}</code>
+<b>╟ Leech Destination</b> ➪ <code>{leech_dest}</code>
+<b>╟ Leech by {leech_method}</b> session
+<b>╟ Mixed Leech ➪ {hybrid_leech}</b>
+<b>╚ Thumbnail Layout ➪ {thumb_layout}</b>
 """
 
     elif stype == "uphoster":
